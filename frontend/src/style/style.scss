@@ -1,0 +1,61 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+/* Global styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Import component styles */
+@import "../pages/user/theme/header/style.scss";
+@import "../pages/user/theme/footer/style.scss";
+@import "../pages/user/homepage/style.scss";
+@import "../pages/user/product-detail/style.scss";
+@import "../pages/user/cart/style.scss";
+@import "../pages/user/checkout/style.scss";
+@import "../pages/user/order-success/style.scss";
+@import "../pages/user/signin/style.scss";
+@import "../pages/user/signup/style.scss";
+@import "../pages/user/shop/style.scss";
+
+/* Admin styles */
+@import "../pages/admin/theme/sidebar.scss";
+@import "../pages/admin/login/style.scss";
+@import "../pages/admin/dashboard/style.scss";
+@import "../pages/admin/products/style.scss";
+@import "../pages/admin/add-product/style.scss";
+@import "../pages/admin/orders/style.scss";
+@import "../pages/admin/brands/style.scss";
+@import "../pages/admin/categories/style.scss";
+

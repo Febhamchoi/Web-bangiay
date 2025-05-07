@@ -1,0 +1,209 @@
+.admin-add-product {
+  padding: 20px;
+
+  .admin-content {
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e1e2d;
+      }
+
+      .back-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background-color: #f3f6f9;
+        color: #7e8299;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: #e4e6ef;
+          color: #3f4254;
+        }
+      }
+    }
+
+    .add-product-form {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 30px;
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 30px;
+        margin-bottom: 30px;
+
+        .form-left, .form-right {
+          .form-group {
+            margin-bottom: 20px;
+
+            label {
+              display: block;
+              font-size: 14px;
+              font-weight: 600;
+              color: #3f4254;
+              margin-bottom: 8px;
+
+              .required {
+                color: #f64e60;
+              }
+            }
+
+            input, select, textarea {
+              width: 100%;
+              padding: 12px 15px;
+              border: 1px solid #e4e6ef;
+              border-radius: 4px;
+              font-size: 14px;
+              color: #3f4254;
+              outline: none;
+              transition: border-color 0.3s;
+
+              &:focus {
+                border-color: #3699ff;
+              }
+
+              &.error {
+                border-color: #f64e60;
+              }
+            }
+
+            textarea {
+              resize: vertical;
+              min-height: 120px;
+            }
+
+            .error-message {
+              color: #f64e60;
+              font-size: 12px;
+              margin-top: 5px;
+            }
+
+            .size-options {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+              margin-top: 10px;
+
+              .size-option {
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid #e4e6ef;
+                border-radius: 4px;
+                font-size: 14px;
+                color: #3f4254;
+                cursor: pointer;
+                transition: all 0.3s;
+
+                &:hover {
+                  border-color: #3699ff;
+                }
+
+                &.selected {
+                  background-color: #3699ff;
+                  color: #fff;
+                  border-color: #3699ff;
+                }
+              }
+            }
+
+            .image-preview {
+              margin-top: 15px;
+              border: 1px solid #e4e6ef;
+              border-radius: 4px;
+              overflow: hidden;
+              max-width: 300px;
+
+              img {
+                width: 100%;
+                height: auto;
+                display: block;
+              }
+            }
+          }
+
+          .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+          }
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+
+        .cancel-button, .save-button {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 25px;
+          border: none;
+          border-radius: 4px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s;
+        }
+
+        .cancel-button {
+          background-color: #f3f6f9;
+          color: #7e8299;
+
+          &:hover {
+            background-color: #e4e6ef;
+            color: #3f4254;
+          }
+        }
+
+        .save-button {
+          background-color: #3699ff;
+          color: #fff;
+
+          &:hover {
+            background-color: #187de4;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .admin-content {
+      .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .add-product-form {
+        padding: 20px;
+
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+      }
+    }
+  }
+}
+
