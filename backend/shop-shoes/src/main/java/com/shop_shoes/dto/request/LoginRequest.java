@@ -1,0 +1,9 @@
+package com.shop_shoes.dto.request;
+
+import lombok.Data;
+
+@Data
+public class LoginRequest {
+    private String email;
+    private String password;
+} 
