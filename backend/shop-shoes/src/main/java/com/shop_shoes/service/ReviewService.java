@@ -5,9 +5,9 @@ import com.shop_shoes.model.Review;
 import com.shop_shoes.model.Product;
 import com.shop_shoes.model.User;
 import com.shop_shoes.repository.ReviewRepository;
+import com.shop_shoes.util.PaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +42,7 @@ public class ReviewService {
     }
 
     public Page<Review> getProductReviews(Integer productId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return reviewRepository.findByProductId(productId, pageable);
     }
 } 

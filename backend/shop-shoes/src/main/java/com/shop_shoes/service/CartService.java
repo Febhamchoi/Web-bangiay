@@ -28,7 +28,6 @@ public class CartService {
         return cartRepository.findByUserId(userId);
     }
 
-    // Cập nhật tổng tiền giỏ hàng
     public Cart updateCartTotal(Cart cart) {
         cart.setTotalPrice(cartItemService.calculateTotalPrice(cart));
         return cartRepository.save(cart);

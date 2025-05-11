@@ -6,9 +6,9 @@ import com.shop_shoes.model.*;
 import com.shop_shoes.repository.OrderRepository;
 import com.shop_shoes.repository.ProductRepository;
 import com.shop_shoes.repository.ProductSizeRepository;
+import com.shop_shoes.util.PaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,12 +84,12 @@ public class OrderService {
     }
 
     public Page<Order> getAllOrders(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return orderRepository.findAll(pageable);
     }
 
     public Page<Order> getUserOrders(Integer userId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return orderRepository.findByUserId(userId, pageable);
     }
 
@@ -99,7 +99,7 @@ public class OrderService {
     }
 
     public Page<Order> searchOrders(String keyword, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return orderRepository.searchOrders(keyword, pageable);
     }
 
@@ -145,12 +145,12 @@ public class OrderService {
     }
 
     public Page<Order> getOrdersByStatus(OrderStatus status, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return orderRepository.findByStatus(status, pageable);
     }
 
     public Page<Order> getUserOrdersByStatus(Integer userId, OrderStatus status, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return orderRepository.findByUserIdAndStatus(userId, status, pageable);
     }
 } 

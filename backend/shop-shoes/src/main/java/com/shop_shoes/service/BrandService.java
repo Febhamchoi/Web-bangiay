@@ -16,7 +16,6 @@ public class BrandService {
     private BrandRepository brandRepository;
 
     public BrandResponse createBrand(BrandRequest request) {
-        // Kiểm tra tên thương hiệu đã tồn tại chưa
         if (brandRepository.existsByName(request.getName())) {
             throw new RuntimeException("Tên thương hiệu đã tồn tại");
         }
@@ -32,7 +31,6 @@ public class BrandService {
         Brand brand = brandRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy thương hiệu"));
 
-        // Kiểm tra tên mới có trùng với thương hiệu khác không
         if (!brand.getName().equals(request.getName()) && 
             brandRepository.existsByName(request.getName())) {
             throw new RuntimeException("Tên thương hiệu đã tồn tại");

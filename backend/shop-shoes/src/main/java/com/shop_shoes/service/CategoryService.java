@@ -16,7 +16,6 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public CategoryResponse createCategory(CategoryRequest request) {
-        // Kiểm tra tên danh mục đã tồn tại chưa
         if (categoryRepository.existsByCategoryName(request.getCategoryName())) {
             throw new RuntimeException("Tên danh mục đã tồn tại");
         }

@@ -4,6 +4,7 @@ import com.shop_shoes.dto.request.UserRequest;
 import com.shop_shoes.dto.response.UserResponse;
 import com.shop_shoes.model.User;
 import com.shop_shoes.repository.UserRepository;
+import com.shop_shoes.util.PaginationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ public class UserService {
     private JWTService jwtService;
 
     public Page<UserResponse> getAllUsers(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return userRepository.findAll(pageable).map(UserResponse::fromUser);
     }
 
@@ -46,6 +47,8 @@ public class UserService {
         user.setAddress(request.getAddress());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole() != null ? request.getRole() : "ROLE_USER");
+        cartService.createCart(user);
+
         
         return UserResponse.fromUser(userRepository.save(user));
     }
@@ -84,7 +87,7 @@ public class UserService {
     }
 
     public Page<UserResponse> searchUsers(String keyword, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return userRepository.searchUsers(keyword, pageable).map(UserResponse::fromUser);
     }
 

@@ -5,11 +5,10 @@ import com.shop_shoes.dto.request.SizeRequest;
 import com.shop_shoes.dto.response.ProductResponse;
 import com.shop_shoes.model.*;
 import com.shop_shoes.repository.*;
+import com.shop_shoes.util.PaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,60 +47,60 @@ public class ProductService {
     }
 
     public Page<ProductResponse> getProducts(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findAll(pageable).map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getProductsByCategory(Integer categoryId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findByCategoryId(categoryId, pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getProductsByBrand(Integer brandId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findByBrandId(brandId, pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> searchProducts(String keyword, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.searchByName(keyword, pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getProductsBySize(String sizeInput, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findBySize(Integer.valueOf(sizeInput), pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getProductsByPriceRange(Integer minPrice, Integer maxPrice, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findByPriceRange(minPrice, maxPrice, pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> searchProductsInCategory(Integer categoryId, String keyword, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.searchByNameInCategory(categoryId, keyword, pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getDiscountedProducts(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findDiscountedProducts(pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getDiscountedProductsByBrand(Integer brandId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findDiscountedProductsByBrand(brandId, pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getDiscountedProductsBySize(String sizeInput, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findDiscountedProductsBySize(Integer.valueOf(sizeInput), pageable)
             .map(ProductResponse::fromProduct);
     }
@@ -110,13 +109,13 @@ public class ProductService {
         if (minDiscount < 0 || maxDiscount > 100) {
             throw new RuntimeException("Mức giảm giá phải từ 0 đến 100%");
         }
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findProductsByDiscountRange(minDiscount, maxDiscount, pageable)
             .map(ProductResponse::fromProduct);
     }
 
     public Page<ProductResponse> getDiscountedProductsByBrandAndSize(Integer brandId, String sizeInput, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Pageable pageable = PaginationUtil.getPageable(page, size);
         return productRepository.findDiscountedProductsByBrandAndSize(brandId, Integer.valueOf(sizeInput), pageable)
             .map(ProductResponse::fromProduct);
     }
