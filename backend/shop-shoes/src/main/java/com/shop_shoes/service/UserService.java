@@ -47,10 +47,11 @@ public class UserService {
         user.setAddress(request.getAddress());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole() != null ? request.getRole() : "ROLE_USER");
+        userRepository.save(user);
         cartService.createCart(user);
 
         
-        return UserResponse.fromUser(userRepository.save(user));
+        return UserResponse.fromUser(user);
     }
 
     public UserResponse updateUser(Integer id, UserRequest request) {

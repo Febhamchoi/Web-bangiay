@@ -28,7 +28,7 @@ public class ProductService {
     public ProductResponse createProduct(ProductRequest request) {
         Product product = new Product();
         updateProductFromRequest(product, request);
-        return ProductResponse.fromProduct(productRepository.save(product));
+        return ProductResponse.fromProduct(product);
     }
 
     public ProductResponse updateProduct(Integer id, ProductRequest request) {
@@ -156,9 +156,8 @@ public class ProductService {
         productRepository.save(product);
 
         for (SizeRequest sizeRequest : request.getSizes()) {
-            ProductSize productSize = new ProductSize(null, product, sizeRequest.getQuantity(), sizeRequest.getValue());
+            ProductSize productSize = new ProductSize(null, product, sizeRequest.getValue(), sizeRequest.getQuantity());
             productSizeRepository.save(productSize);
         }
-        productRepository.save(product);
     }
 } 

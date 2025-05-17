@@ -96,7 +96,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products/size/{size}")
+    @GetMapping("/products/size/{sizeString}")
     public ResponseEntity<?> getProductsBySize(
             @PathVariable String sizeString,
             @RequestParam(defaultValue = "0") int page,

@@ -23,6 +23,9 @@ public class AuthService {
     @Autowired
     private JWTService jwtService;
 
+    @Autowired
+    private CartService cartService;
+
     public String login(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Email không tồn tại"));
@@ -58,8 +61,9 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
-        user.setRole("USER"); // Mặc định role là USER
-
-        return userRepository.save(user);
+        user.setRole("ROLE_USER");
+        userRepository.save(user);
+        cartService.createCart(user);
+        return user;
     }
 }
