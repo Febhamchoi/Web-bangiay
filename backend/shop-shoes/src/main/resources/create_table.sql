@@ -66,24 +66,34 @@ create table user
         unique (email)
 );
 
-create table cart_items
+create table cart
 (
-    id         int auto_increment
+    id          int auto_increment
         primary key,
-    user_id    int null,
-    quantity   int not null,
-    product_id int null,
-    constraint cart_items_ibfk_1
-        foreign key (user_id) references user (id),
-    constraint cart_items_ibfk_2
-        foreign key (product_id) references product (id)
+    user_id     int    null,
+    total_price double null,
+    constraint cart_ibfk_1
+        foreign key (user_id) references user (id)
 );
 
-create index product_id
-    on cart_items (product_id);
-
 create index user_id
-    on cart_items (user_id);
+    on cart (user_id);
+
+create table cart_items
+(
+    id              int auto_increment
+        primary key,
+    cart_id         int null,
+    quantity        int not null,
+    product_size_id int null,
+    constraint cart_items_ibfk_1
+        foreign key (cart_id) references cart (id),
+    constraint cart_items_product_size_id_fk
+        foreign key (product_size_id) references product_size (id)
+);
+
+create index product_size_id
+    on cart_items (product_size_id);
 
 create table `order`
 (
