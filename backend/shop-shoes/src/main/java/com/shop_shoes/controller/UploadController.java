@@ -13,7 +13,7 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
-    @PostMapping("/api/admin/upload/image")
+        @PostMapping("/api/admin/upload/image")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
             if (file.isEmpty()) {

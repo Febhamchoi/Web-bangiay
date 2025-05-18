@@ -58,7 +58,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
-        user.setRole("USER"); // Mặc định role là USER
+        user.setRole("ROLE_USER"); // Mặc định role là USER
 
         return userRepository.save(user);
     }

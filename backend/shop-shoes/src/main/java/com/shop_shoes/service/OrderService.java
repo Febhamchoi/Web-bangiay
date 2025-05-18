@@ -44,11 +44,17 @@ public class OrderService {
         order.setOrderDate(new Date());
         order.setStatus(OrderStatus.PENDING);
         order.setComments(request.getComments());
+        System.out.println(request.getItems());
 
         double totalSale = 0;
         for (OrderItemRequest item : request.getItems()) {
             Product product = productService.getProductById(item.getProductId());
+            System.out.println(product);
+            System.out.println(product.getProductSizes());
+            for (ProductSize productSize : product.getProductSizes()) {
+                System.out.println(productSize.getValue());
 
+            }
             ProductSize productSize = product.getProductSizes().stream()
                 .filter(ps -> ps.getValue() == item.getSize())
                 .findFirst()

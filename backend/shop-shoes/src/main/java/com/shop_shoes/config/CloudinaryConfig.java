@@ -10,6 +10,6 @@ public class CloudinaryConfig {
     @Bean
     public Cloudinary cloudinary() {
         Dotenv dotenv = Dotenv.load();
-        return new Cloudinary("cloudinary://228797841643946:2d-SviEdGTA7sJ8uifdz1H7uFKg@dknwbmvby");
+        return new Cloudinary("cloudinary://156672583239517:AlF3WC2a6HB-wk8h8vVeDd_gOCQ@dgijyhzgv");
     }
 } 

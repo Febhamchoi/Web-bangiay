@@ -15,7 +15,7 @@ public class ReviewController {
 
     @PostMapping("/api/user/reviews")
     public ResponseEntity<?> createReview(
-            @RequestAttribute("userId") Integer userId,
+            @RequestParam Integer userId,
             @RequestBody ReviewRequest request) {
         try {
             Review review = reviewService.createReview(userId, request);
