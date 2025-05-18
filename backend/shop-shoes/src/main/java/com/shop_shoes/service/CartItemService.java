@@ -3,6 +3,7 @@ package com.shop_shoes.service;
 import com.shop_shoes.model.Cart;
 import com.shop_shoes.model.CartItem;
 import com.shop_shoes.model.Product;
+import com.shop_shoes.model.ProductSize;
 import com.shop_shoes.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,8 @@ public class CartItemService {
     @Autowired
     private CartItemRepository cartItemRepository;
     
-    public CartItem addToCart(Cart cart, Product product, String size, Integer quantity) {
-        CartItem existingItem = cartItemRepository.findByCartAndProductAndSize(cart, product, size);
+    public CartItem addToCart(Cart cart, ProductSize productSize, Integer quantity) {
+        CartItem existingItem = cartItemRepository.findByCartAndProductSize(cart, productSize);
         
         if (existingItem != null) {
             existingItem.setQuantity(existingItem.getQuantity() + quantity);
@@ -21,8 +22,7 @@ public class CartItemService {
         } else {
             CartItem cartItem = new CartItem();
             cartItem.setCart(cart);
-            cartItem.setProduct(product);
-            cartItem.setSize(size);
+            cartItem.setProductSize(productSize);
             cartItem.setQuantity(quantity);
             return cartItemRepository.save(cartItem);
         }
@@ -41,7 +41,7 @@ public class CartItemService {
 
     public Double calculateTotalPrice(Cart cart) {
         return cart.getCartItems().stream()
-            .mapToDouble(item -> item.getProduct().getSellingPrice() * item.getQuantity())
+            .mapToDouble(item -> item.getProductSize().getProduct().getSellingPrice() * item.getQuantity())
             .sum();
     }
 } 

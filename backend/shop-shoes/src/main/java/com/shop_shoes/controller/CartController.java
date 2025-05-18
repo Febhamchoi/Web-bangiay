@@ -1,10 +1,13 @@
 package com.shop_shoes.controller;
 
 import com.shop_shoes.dto.request.CartItemRequest;
+import com.shop_shoes.dto.response.CartResponse;
 import com.shop_shoes.model.Cart;
 import com.shop_shoes.model.CartItem;
 import com.shop_shoes.model.Product;
+import com.shop_shoes.model.ProductSize;
 import com.shop_shoes.repository.ProductRepository;
+import com.shop_shoes.repository.ProductSizeRepository;
 import com.shop_shoes.service.CartService;
 import com.shop_shoes.service.CartItemService;
 import com.shop_shoes.service.ProductService;
@@ -13,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user/cart")
@@ -29,6 +33,9 @@ public class CartController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductSizeRepository productSizeRepository;
+
     @PostMapping("/items")
     public ResponseEntity<?> addToCart(
             @RequestAttribute("userId") Integer userId,
@@ -38,17 +45,17 @@ public class CartController {
             if (cart == null) {
                 return ResponseEntity.badRequest().body("Không tìm thấy giỏ hàng");
             }
-            Product product = productService.getProductById(request.getProductId());
-            if (product == null) {
+            Optional<ProductSize> productSize = productSizeRepository.findById(request.getProductSizeId());
+            if (productSize.isEmpty()) {
                 return ResponseEntity.badRequest().body("Không tìm thấy sản phẩm");
             }
             if (request.getQuantity() <= 0) {
                 return ResponseEntity.badRequest().body("Số lượng phải lớn hơn 0");
             }
-            CartItem cartItem = cartItemService.addToCart(cart, product, request.getSize(), request.getQuantity());
+            CartItem cartItem = cartItemService.addToCart(cart, productSize.get(), request.getQuantity());
             cart = cartService.updateCartTotal(cart);
 
-            return ResponseEntity.ok(cart);
+            return ResponseEntity.ok(CartResponse.fromCart(cart));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -75,7 +82,7 @@ public class CartController {
 
             cart = cartService.updateCartTotal(cart);
 
-            return ResponseEntity.ok(cart);
+            return ResponseEntity.ok(CartResponse.fromCart(cart));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -104,13 +111,12 @@ public class CartController {
 
             cart = cartService.updateCartTotal(cart);
 
-            return ResponseEntity.ok(cart);
+            return ResponseEntity.ok(CartResponse.fromCart(cart));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // Xem giỏ hàng
     @GetMapping
     public ResponseEntity<?> getCart(@RequestAttribute("userId") Integer userId) {
         try {
@@ -118,7 +124,7 @@ public class CartController {
             if (cart == null) {
                 return ResponseEntity.badRequest().body("Không tìm thấy giỏ hàng");
             }
-            return ResponseEntity.ok(cart);
+            return ResponseEntity.ok(CartResponse.fromCart(cart));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

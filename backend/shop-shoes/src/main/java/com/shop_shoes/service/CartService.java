@@ -47,7 +47,7 @@ public class CartService {
 
         for (CartItem item : cart.getCartItems()) {
             totalItems += item.getQuantity();
-            totalValue += item.getProduct().getSellingPrice() * item.getQuantity();
+            totalValue += item.getProductSize().getProduct().getSellingPrice() * item.getQuantity();
         }
 
         return Map.of(
