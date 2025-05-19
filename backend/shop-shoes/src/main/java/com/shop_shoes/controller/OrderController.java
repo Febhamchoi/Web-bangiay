@@ -1,6 +1,7 @@
 package com.shop_shoes.controller;
 
 import com.shop_shoes.dto.request.OrderRequest;
+import com.shop_shoes.dto.response.OrderResponse;
 import com.shop_shoes.model.Order;
 import com.shop_shoes.model.OrderStatus;
 import com.shop_shoes.service.OrderService;
@@ -21,7 +22,7 @@ public class OrderController {
             @RequestBody OrderRequest request) {
         try {
             Order order = orderService.createOrder(userId, request);
-            return ResponseEntity.ok(order);
+            return ResponseEntity.ok(OrderResponse.fromOrder(order));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -34,7 +35,8 @@ public class OrderController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Page<Order> orders = orderService.getUserOrders(userId, page, size);
-            return ResponseEntity.ok(orders);
+            Page<OrderResponse> response = orders.map(OrderResponse::fromOrder);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -49,7 +51,7 @@ public class OrderController {
             if (!order.getUser().getId().equals(userId)) {
                 return ResponseEntity.badRequest().body("Không có quyền xem đơn hàng này");
             }
-            return ResponseEntity.ok(order);
+            return ResponseEntity.ok(OrderResponse.fromOrder(order));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -65,7 +67,7 @@ public class OrderController {
                 return ResponseEntity.badRequest().body("Không có quyền hủy đơn hàng này");
             }
             order = orderService.updateOrderStatus(orderId, OrderStatus.CANCELLED);
-            return ResponseEntity.ok(order);
+            return ResponseEntity.ok(OrderResponse.fromOrder(order));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -79,7 +81,8 @@ public class OrderController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Page<Order> orders = orderService.getUserOrdersByStatus(userId, status, page, size);
-            return ResponseEntity.ok(orders);
+            Page<OrderResponse> response = orders.map(OrderResponse::fromOrder);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -91,7 +94,8 @@ public class OrderController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Page<Order> orders = orderService.getAllOrders(page, size);
-            return ResponseEntity.ok(orders);
+            Page<OrderResponse> response = orders.map(OrderResponse::fromOrder);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -104,7 +108,8 @@ public class OrderController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Page<Order> orders = orderService.searchOrders(keyword, page, size);
-            return ResponseEntity.ok(orders);
+            Page<OrderResponse> response = orders.map(OrderResponse::fromOrder);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -126,7 +131,7 @@ public class OrderController {
             @RequestParam OrderStatus status) {
         try {
             Order order = orderService.updateOrderStatus(orderId, status);
-            return ResponseEntity.ok(order);
+            return ResponseEntity.ok(OrderResponse.fromOrder(order));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -139,7 +144,8 @@ public class OrderController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Page<Order> orders = orderService.getOrdersByStatus(status, page, size);
-            return ResponseEntity.ok(orders);
+            Page<OrderResponse> response = orders.map(OrderResponse::fromOrder);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

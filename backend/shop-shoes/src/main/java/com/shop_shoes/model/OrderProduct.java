@@ -16,12 +16,8 @@ public class OrderProduct {
     private Order order;
     
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-    
-    private Integer size;
-    
+    @JoinColumn(name = "product_size_id")
+    private ProductSize productSize;
+
     private Integer quantity;
-    
-    private Integer price;
 } 

@@ -23,4 +23,9 @@ public class ProductSize {
     private int value;
     
     private Integer quantity;
+
+    @Override
+    public String toString(){
+        return id + " " + value + " " + quantity;
+    }
 } 

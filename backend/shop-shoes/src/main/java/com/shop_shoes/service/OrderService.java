@@ -48,7 +48,9 @@ public class OrderService {
         double totalSale = 0;
         for (OrderItemRequest item : request.getItems()) {
             Product product = productService.getProductById(item.getProductId());
-
+            for (ProductSize productSize1:product.getProductSizes()){
+                System.out.println(productSize1);
+            }
             ProductSize productSize = product.getProductSizes().stream()
                 .filter(ps -> ps.getValue() == item.getSize())
                 .findFirst()
@@ -66,15 +68,14 @@ public class OrderService {
 
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setOrder(order);
-            orderProduct.setProduct(product);
-            orderProduct.setSize(item.getSize());
+            orderProduct.setProductSize(productSize);
             orderProduct.setQuantity(item.getQuantity());
-            orderProduct.setPrice(product.getSellingPrice());
 
             int newQuantity = productSize.getQuantity() - item.getQuantity();
             productSize.setQuantity(newQuantity);
             productSizeRepository.save(productSize);
             productRepository.save(product);
+            order.getOrderProducts().add(orderProduct);
             
             totalSale += product.getSellingPrice() * item.getQuantity();
         }
@@ -123,14 +124,14 @@ public class OrderService {
         
         if (newStatus == OrderStatus.CANCELLED) {
             for (OrderProduct orderProduct : order.getOrderProducts()) {
-                Product product = orderProduct.getProduct();
+                Product product = orderProduct.getProductSize().getProduct();
 
                 ProductSize productSize = product.getProductSizes().stream()
-                    .filter(ps -> ps.getValue() == orderProduct.getSize())
+                    .filter(ps -> ps.getValue() == orderProduct.getProductSize().getValue())
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException(
                         String.format("Không tìm thấy size %d cho sản phẩm %s", 
-                            orderProduct.getSize(), product.getName())
+                            orderProduct.getProductSize().getValue(), product.getName())
                     ));
 
                 int newQuantity = productSize.getQuantity() + orderProduct.getQuantity();

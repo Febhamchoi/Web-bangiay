@@ -3,7 +3,9 @@ package com.shop_shoes.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,7 +29,7 @@ public class Product {
     private String description;
     
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProductSize> productSizes = new HashSet<>();
+    private List<ProductSize> productSizes = new ArrayList<>();
     
     @Column(name = "original_price")
     private Integer originalPrice;
